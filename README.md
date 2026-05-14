@@ -25,7 +25,9 @@ IPOVision is a modular full-stack IPO analytics platform designed to combine mac
 
 The platform provides multiple independent analysis engines for evaluating IPO performance potential, market conviction, and sector-specific behavior through an interactive React dashboard backed by FastAPI microservices.
 
-Built by **Krish Patel @ Indian Institute of Technology (IIT) Guwahati**.
+WebApp Link - https://ipo-project-website.vercel.app/
+
+Built by **FEC @ Indian Institute of Technology (IIT) Guwahati**.
 
 ---
 
