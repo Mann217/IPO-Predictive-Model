@@ -1,13 +1,16 @@
 from app.constants import MODEL_A, MODEL_B_1Y, MODEL_B_3Y, RANGES, VERDICTS
 
+# IPO prediction scoring service
 
 def normalise(raw: float, lo: float, hi: float) -> int:
+    # Normalize raw prediction to 0-100 score
     score = (raw - lo) / (hi - lo) * 100
     score = max(0, min(100, score))
     return int(score)
 
 
 def get_verdict(score: int) -> str:
+    # Get investment verdict based on score
     for threshold, label in VERDICTS:
         if score >= threshold:
             return label
@@ -15,6 +18,7 @@ def get_verdict(score: int) -> str:
 
 
 def compute_short_term(subscription: float, vix: float) -> dict:
+    # Compute short-term IPO prediction using subscription and VIX
     contributions = {
         "Subscription": MODEL_A["Subscription"] * subscription,
         "VIX": MODEL_A["VIX"] * vix,
@@ -39,6 +43,7 @@ def compute_short_term(subscription: float, vix: float) -> dict:
 
 
 def compute_long_term(roce: float, de_ratio: float) -> dict:
+    # Compute long-term IPO prediction using ROCE and D/E ratio
     raw_1y = (
         MODEL_B_1Y["intercept"]
         + MODEL_B_1Y["ROCE"] * roce
@@ -85,6 +90,7 @@ def compute_long_term(roce: float, de_ratio: float) -> dict:
 
 
 def predict(payload: dict) -> dict:
+    # Main prediction function that routes to appropriate computation
     mode = payload.get("mode")
 
     if mode == "short_term":

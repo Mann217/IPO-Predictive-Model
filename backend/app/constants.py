@@ -1,3 +1,5 @@
+# Model coefficients and constants for IPO prediction
+
 MODEL_A = {
     "intercept": 0.21058,
     "Subscription": 0.00453,
@@ -16,11 +18,13 @@ MODEL_B_3Y = {
     "D/E Ratio": 0.50757,
 }
 
+# Expected return ranges for different prediction modes
 RANGES = {
     "listing": (-0.15, 0.60),
     "long_term": (-0.20, 2.50),
 }
 
+# Verdict thresholds and labels
 VERDICTS = [
     (80, "STRONG BUY"),
     (65, "BUY"),

@@ -6,8 +6,10 @@ import threading
 
 from sentiment import worker
 
+# FastAPI app for real-time sentiment analysis
 app = FastAPI(title="Sentiment Analysis API", version="1.0.0")
 
+# Database configuration for PostgreSQL
 DB_CONFIG = {
     "user": "postgres",
     "password": "physics",
@@ -27,10 +29,12 @@ async def root():
 
 @app.post("/start")
 async def start_worker(req: IPORequest):
+    # Stop existing worker if running
     if worker.worker_thread and worker.worker_thread.is_alive():
         worker.stop_event.set()
         worker.worker_thread.join(timeout=5)
 
+    # Start new worker thread for sentiment analysis
     worker.stop_event = threading.Event()
     worker.worker_thread = threading.Thread(
         target=worker.run_worker,
@@ -44,6 +48,7 @@ async def start_worker(req: IPORequest):
 
 @app.post("/stop")
 async def stop_worker():
+    # Stop the sentiment analysis worker
     if worker.worker_thread and worker.worker_thread.is_alive():
         worker.stop_event.set()
         return {"status": "stopped"}
@@ -52,6 +57,7 @@ async def stop_worker():
 
 @app.websocket("/ws/v_t_stream")
 async def websocket_endpoint(websocket: WebSocket):
+    # WebSocket endpoint for real-time sentiment streaming
     await websocket.accept()
     print("SUCCESS: Browser connected to WebSocket!")
 
@@ -64,6 +70,7 @@ async def websocket_endpoint(websocket: WebSocket):
             print(f"WebSocket send failed: {e}")
 
     def callback(connection, pid, channel, payload):
+        # Callback for PostgreSQL LISTEN/NOTIFY
         print(f"DB Signal Received: {payload}")
         asyncio.create_task(send_payload(payload))
 

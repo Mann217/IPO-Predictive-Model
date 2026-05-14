@@ -7,7 +7,7 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 const WS_BASE = import.meta.env.VITE_WS_BASE;
 
 export default function MainTabs() {
-
+  // Main tabs component for switching between different analysis views
   const [activeTab, setActiveTab] = useState("srcc");
 
   const tabBtn = (isActive) =>
@@ -17,8 +17,8 @@ export default function MainTabs() {
         : "bg-transparent text-gray-400 border border-[#2B3139] hover:text-white"
     }`;
 
-
   const renderTabContent = () => {
+    // Render the active tab's content
     switch (activeTab) {
       case "srcc":
         return <Srcc />;

@@ -6,8 +6,10 @@ from sentiment.main import app as sentiment_app
 from sector.main import app as sector_app
 from deep.main import app as deep_app
 
+# Main FastAPI application that mounts all microservices
 app = FastAPI(title="Combined IPO Backend", version="1.0.0")
 
+# Add CORS middleware to allow cross-origin requests from frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -30,6 +32,7 @@ def root():
 def health():
     return {"status": "ok"}
 
+# Mount individual service applications
 app.mount("/ipo", ipo_app)
 app.mount("/sentiment", sentiment_app)
 app.mount("/sector", sector_app)

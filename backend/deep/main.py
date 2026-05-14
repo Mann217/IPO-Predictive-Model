@@ -2,8 +2,10 @@ from fastapi import FastAPI, HTTPException
 from deep.schemas import PredictRequest
 from deep.services.model_service import ModelService
 
+# FastAPI app for deep ML analysis
 app = FastAPI(title="Deep Analysis API", version="1.0.0")
 
+# Initialize the model service
 model_service = ModelService()
 
 

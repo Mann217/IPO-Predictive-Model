@@ -5,7 +5,7 @@ import Bar_Chart from "./bar_chart.jsx";
 const API_BASE = import.meta.env.VITE_API_BASE;
 const WS_BASE = import.meta.env.VITE_WS_BASE;
 
-//to display scores and returns
+// Component to display prediction results
 const ResultCard = ({ mode, result }) => {
   const { score, short, one, three } = result;
 
@@ -36,6 +36,7 @@ const ResultCard = ({ mode, result }) => {
 };
 
 export default function Srcc() {
+  // IPO prediction component with short/long term modes
   const [mode, setMode] = useState(0);
 
   const [form, setForm] = useState({
@@ -79,6 +80,7 @@ export default function Srcc() {
   };
 
   const getResponse = async () => {
+    // Send prediction request to backend
     try {
       console.log("button clicked");
 

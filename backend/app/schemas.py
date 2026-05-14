@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Dict, Literal
 
+# Pydantic models for API request and response validation
 
 class PredictRequest(BaseModel):
     mode: Literal["short_term", "long_term"]

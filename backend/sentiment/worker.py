@@ -7,10 +7,12 @@ import yfinance as yf
 import sys
 import threading
 
+# Database and model configuration
 DB_SETTINGS = {"dbname": "postgres", "user": "postgres", "password": "physics", "host": "127.0.0.1", "port": "5432"}
 MODEL_ID = "ProsusAI/finbert"
 WINDOW_SIZE = 10
 
+# Market signal adjustments for sentiment analysis
 MARKET_SIGNALS = {
     "gmp zero": -1.5, "gmp crash": -1.4, "nil gmp": -1.2,
     "lock-in pressure": -1.1, "lower circuit": -1.5,
@@ -28,6 +30,7 @@ model = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
 print("Models ready.\n")
 
 def get_smoothed_velocity(ticker, raw_v):
+    # Smooth sentiment velocity using moving average
     if ticker not in sentiment_buffers:
         sentiment_buffers[ticker] = deque(maxlen=WINDOW_SIZE)
     buffer = sentiment_buffers[ticker]
@@ -35,12 +38,14 @@ def get_smoothed_velocity(ticker, raw_v):
     return sum(buffer) / len(buffer)
 
 def get_vix():
+    # Get current VIX value for market regime adjustment
     try:
         return float(yf.Ticker("^INDIAVIX").history(period="1d")['Close'].iloc[-1])
     except:
         return 14.2
 
 def analyze_sentiment(entries, ticker):
+    # Analyze sentiment from news headlines using FinBERT
     if not entries:
         return 0.0, 0.0, 0.0, 0.0
     scores = []
@@ -73,6 +78,7 @@ def analyze_sentiment(entries, ticker):
     return round(float(smoothed_v), 4), round(confidence, 2), round(pos_total/count, 4), round(neg_total/count, 4)
 
 def setup_db(conn):
+    # Create database table and triggers for sentiment data
     cur = conn.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS sentiment_velocity_data (
@@ -116,6 +122,7 @@ def setup_db(conn):
     cur.close()
 
 def run_worker(ipo_name, stop_evt):
+    # Main worker function for sentiment analysis
     ticker = ipo_name.upper().replace(" ", "_") + "_IPO"
     search_query = f"{ipo_name} IPO GMP allotment listing share price"
     print(f"\n>>> Starting worker for: {ipo_name} | Ticker: {ticker}")

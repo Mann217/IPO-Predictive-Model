@@ -6,6 +6,7 @@ import Srcc from '../components/srcc.jsx'
 import MainTabs from '../components/MainTabs.jsx'
 
 function App() {
+  // Main React component for the IPOVision dashboard
   const [count, setCount] = useState(0)
 
   return (

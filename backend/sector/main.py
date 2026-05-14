@@ -5,11 +5,14 @@ import os
 from pydantic import BaseModel
 from typing import List
 
+# FastAPI app for sector-wise IPO predictions
 app = FastAPI(title="Sectorwise IPO Scorer API", version="1.0.0")
 
+# Directory paths for models
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "saved_models")
 
+# Mapping of sectors to their trained model files
 SECTOR_MODEL_MAP = {
     "Banking & Nbfc": "Banking_and_Nbfc_best.pkl",
     "Fmcg": "Fmcg_best.pkl",
@@ -33,6 +36,7 @@ class PredictionRequest(BaseModel):
 
 @app.post("/predict")
 async def predict(data: PredictionRequest):
+    # Validate sector is supported
     if data.sector not in SECTOR_MODEL_MAP:
         raise HTTPException(status_code=400, detail=f"Sector '{data.sector}' not supported.")
 

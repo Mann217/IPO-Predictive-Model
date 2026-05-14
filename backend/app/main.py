@@ -3,11 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.schemas import PredictRequest
 from app.services.scorer import predict as scorer_predict
-#from app.predict_performance import ModelService
+# from app.predict_performance import ModelService  # Commented out alternative model service
 from typing import Dict
 
+# FastAPI app for IPO scoring predictions
 app = FastAPI(title="IPO Scorer API", version="1.0.0")
 
+# Enable CORS for all origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
