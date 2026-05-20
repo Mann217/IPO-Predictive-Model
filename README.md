@@ -347,4 +347,4 @@ uvicorn main:app --host 0.0.0.0 --port $PORT
 
 ## Sector-Wise Prediction
 - Dynamic sector selection
-- Sector-specialized inference engine
+- Sector-specialized inference engine  
