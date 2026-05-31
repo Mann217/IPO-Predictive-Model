@@ -1,4 +1,4 @@
-# 📈 IPOVision
+# IPOVision
 
 <div align="center">
 
